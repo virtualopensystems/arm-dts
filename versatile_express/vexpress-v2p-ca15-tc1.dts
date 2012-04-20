@@ -93,6 +93,12 @@
 			     <0 91 4>;
 	};
 
+	timer {
+		compatible = "arm,armv7-timer";
+		interrupts = <1 13 0xf08>,
+			     <1 14 0xf08>;
+	};
+
 	pmu {
 		compatible = "arm,cortex-a15-pmu", "arm,cortex-a9-pmu";
 		interrupts = <0 68 4>,
