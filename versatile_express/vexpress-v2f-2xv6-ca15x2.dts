@@ -63,7 +63,8 @@
 
 	timer {
 		compatible = "arm,armv7-timer";
-		interrupts = <1 13 0xf08 1 14 0xf08>;
+		interrupts = <1 13 0xf08>,
+			     <1 14 0xf08>;
 	};
 
 	pmu {
