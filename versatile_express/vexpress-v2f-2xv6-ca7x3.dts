@@ -96,7 +96,8 @@
 	pmu {
 		compatible = "arm,cortex-a7-pmu", "arm,cortex-a9-pmu";
 		interrupts = <0 68 4>,
-			     <0 69 4>;
+			     <0 69 4>,
+			     <0 70 4>;
 	};
 
 	motherboard {
