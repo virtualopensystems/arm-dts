@@ -4,9 +4,9 @@
  * LogicTile Express 13MG
  * V2F-2XV6
  *
- * Cortex A7 (3 cores) Soft Macrocell Model (r0p2)
+ * Cortex-A7 (3 cores) Soft Macrocell Model (r0p2)
  *
- * HBI-0217A
+ * HBI-0217A/B
  */
 
 /dts-v1/;
