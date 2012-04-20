@@ -1,6 +1,7 @@
 /*
- * ARM Ltd. Versatile Express RTSM
+ * ARM Ltd. Fast Models
  *
+ * Versatile Express (VE) system model
  * Motherboard component
  *
  * VEMotherBoard.lisa
