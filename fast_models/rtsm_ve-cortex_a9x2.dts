@@ -10,7 +10,7 @@
 /dts-v1/;
 
 / {
-	model = "RTSM_VE_CortexA9x2";
+	model = "RTSM_VE_Cortex_A9x2";
 	compatible = "arm,rtsm_ve,cortex_a9x2", "arm,vexpress";
 	interrupt-parent = <&gic>;
 	#address-cells = <1>;
