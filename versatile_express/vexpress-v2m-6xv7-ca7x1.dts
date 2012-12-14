@@ -1,0 +1,194 @@
+/*
+ * ARM Ltd. Versatile Express
+ *
+ * V2M-6XV7
+ *
+ * Cortex-A7 (1 core) Soft Macrocell Model
+ *
+ * HBI-0242
+ */
+
+/dts-v1/;
+
+/ {
+	model = "V2M-6XV7 Cortex-A7x1 SMM";
+	compatible = "arm,vexpress,v2m-6xv7,ca7x1", "arm,vexpress,v2m-6xv7", "arm,vexpress";
+	interrupt-parent = <&gic>;
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	chosen { };
+
+	aliases {
+		serial0 = &serial0;
+		serial1 = &serial1;
+		serial2 = &serial2;
+		serial3 = &serial3;
+		arm,v2m_timer = &timer01;
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a7";
+			reg = <0>;
+		};
+	};
+
+	flash@08000000 {
+		compatible = "arm,vexpress-flash", "cfi-flash";
+		reg = <0x08000000 0x04000000>;
+		bank-width = <4>;
+	};
+
+	psram@14000000 {
+		compatible = "arm,vexpress-psram", "mtd-ram";
+		reg = <0x14000000 0x02000000>;
+		bank-width = <4>;
+	};
+
+	ethernet@1a000000 {
+		compatible = "smsc,lan9118", "smsc,lan9115";
+		reg = <0x1a000000 0x10000>;
+		interrupts = <0 15 4>;
+		phy-mode = "mii";
+		reg-io-width = <4>;
+		smsc,irq-active-high;
+		smsc,irq-push-pull;
+	};
+
+	usb@1b000000 {
+		compatible = "nxp,usb-isp1761";
+		reg = <0x1b000000 0x20000>;
+		interrupts = <0 16 4>;
+		port1-otg;
+	};
+
+	sysreg@1c010000 {
+		compatible = "arm,vexpress-sysreg";
+		reg = <0x1c010000 0x1000>;
+	};
+
+	sysctl@1c020000 {
+		compatible = "arm,sp810", "arm,primecell";
+		reg = <0x1c020000 0x1000>;
+	};
+
+	serial0: uart@1c090000 {
+		compatible = "arm,pl011", "arm,primecell";
+		reg = <0x1c090000 0x1000>;
+		interrupts = <0 5 4>;
+	};
+
+	serial1: uart@1c0a0000 {
+		compatible = "arm,pl011", "arm,primecell";
+		reg = <0x1c0a0000 0x1000>;
+		interrupts = <0 6 4>;
+	};
+
+	serial2: uart@1c0b0000 {
+		compatible = "arm,pl011", "arm,primecell";
+		reg = <0x1c0b0000 0x1000>;
+		interrupts = <0 7 4>;
+	};
+
+	serial3: uart@1c0c0000 {
+		compatible = "arm,pl011", "arm,primecell";
+		reg = <0x1c0c0000 0x1000>;
+		interrupts = <0 8 4>;
+	};
+
+	wdt@1c0f0000 {
+		compatible = "arm,sp805", "arm,primecell";
+		reg = <0x1c0f0000 0x1000>;
+		interrupts = <0 0 4>;
+	};
+
+	timer01: timer@1c110000 {
+		compatible = "arm,sp804", "arm,primecell";
+		reg = <0x1c110000 0x1000>;
+		interrupts = <0 2 4>;
+	};
+
+	timer23: timer@1c120000 {
+		compatible = "arm,sp804", "arm,primecell";
+		reg = <0x1c120000 0x1000>;
+		interrupts = <0 3 4>;
+	};
+
+	rtc@1c170000 {
+		compatible = "arm,pl031", "arm,primecell";
+		reg = <0x1c170000 0x1000>;
+		interrupts = <0 4 4>;
+	};
+
+	clcd@1c1f0000 {
+		compatible = "arm,pl111", "arm,primecell";
+		reg = <0x1c1f0000 0x1000>;
+		interrupts = <0 14 4>;
+	};
+
+	hdlcd@2b000000 {
+		compatible = "arm,hdlcd";
+		reg = <0x2b000000 0x1000>;
+		interrupts = <0 85 4>;
+	};
+
+	memory-controller@2b0a0000 {
+		compatible = "arm,pl341", "arm,primecell";
+		reg = <0x2b0a0000 0x1000>;
+	};
+
+	gic: interrupt-controller@2c001000 {
+		compatible = "arm,cortex-a7-gic", "arm,cortex-a9-gic";
+		#interrupt-cells = <3>;
+		#address-cells = <0>;
+		interrupt-controller;
+		reg = <0x2c001000 0x1000>,
+		      <0x2c002000 0x1000>,
+		      <0x2c004000 0x2000>,
+		      <0x2c006000 0x2000>;
+		interrupts = <1 9 0xf04>;
+	};
+
+	dma@7ff00000 {
+		compatible = "arm,pl330", "arm,primecell";
+		reg = <0x7ff00000 0x1000>;
+		interrupts = <0 92 4>,
+			     <0 88 4>,
+			     <0 89 4>;
+	};
+
+	memory-controller@7ffd0000 {
+		compatible = "arm,pl354", "arm,primecell";
+		reg = <0x7ffd0000 0x1000>;
+		interrupts = <0 86 4>,
+			     <0 87 4>;
+	};
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x80000000 0x40000000>;
+	};
+
+	timer {
+		compatible = "arm,armv7-timer";
+		interrupts = <1 13 0xf08>,
+			     <1 14 0xf08>,
+			     <1 11 0xf08>,
+			     <1 10 0xf08>;
+		clock-frequency = <1000000>;
+	};
+
+	pmu {
+		compatible = "arm,cortex-a7-pmu", "arm,cortex-a9-pmu";
+		interrupts = <0 68 4>;
+	};
+
+	motherboard {
+		arm,v2m-memory-map = "rs1";
+	};
+};
