@@ -64,7 +64,7 @@
 	wdt@2b060000 {
 		compatible = "arm,sp805", "arm,primecell";
 		reg = <0 0x2b060000 0 0x1000>;
-		interrupts = <98>;
+		interrupts = <0 98 4>;
 	};
 
 	gic: interrupt-controller@2c001000 {
