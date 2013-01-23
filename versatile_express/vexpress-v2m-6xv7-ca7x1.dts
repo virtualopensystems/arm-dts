@@ -67,79 +67,105 @@
 		port1-otg;
 	};
 
-	sysreg@1c010000 {
+	sysreg: sysreg@1c010000 {
 		compatible = "arm,vexpress-sysreg";
 		reg = <0x1c010000 0x1000>;
 	};
 
-	sysctl@1c020000 {
+	sysctl: sysctl@1c020000 {
 		compatible = "arm,sp810", "arm,primecell";
 		reg = <0x1c020000 0x1000>;
+		clocks = <&clk32khz>, <&clk1mhz>, <&mclk>;
+		clock-names = "refclk", "timclk", "apb_pclk";
+		#clock-cells = <1>;
+		clock-output-names = "timerclken0", "timerclken1", "timerclken2", "timerclken3";
 	};
 
 	serial0: uart@1c090000 {
 		compatible = "arm,pl011", "arm,primecell";
 		reg = <0x1c090000 0x1000>;
 		interrupts = <0 5 4>;
+		clocks = <&clk24mhz>, <&mclk>;
+		clock-names = "uartclk", "apb_pclk";
 	};
 
 	serial1: uart@1c0a0000 {
 		compatible = "arm,pl011", "arm,primecell";
 		reg = <0x1c0a0000 0x1000>;
 		interrupts = <0 6 4>;
+		clocks = <&clk24mhz>, <&mclk>;
+		clock-names = "uartclk", "apb_pclk";
 	};
 
 	serial2: uart@1c0b0000 {
 		compatible = "arm,pl011", "arm,primecell";
 		reg = <0x1c0b0000 0x1000>;
 		interrupts = <0 7 4>;
+		clocks = <&clk24mhz>, <&mclk>;
+		clock-names = "uartclk", "apb_pclk";
 	};
 
 	serial3: uart@1c0c0000 {
 		compatible = "arm,pl011", "arm,primecell";
 		reg = <0x1c0c0000 0x1000>;
 		interrupts = <0 8 4>;
+		clocks = <&clk24mhz>, <&mclk>;
+		clock-names = "uartclk", "apb_pclk";
 	};
 
 	wdt@1c0f0000 {
 		compatible = "arm,sp805", "arm,primecell";
 		reg = <0x1c0f0000 0x1000>;
 		interrupts = <0 0 4>;
+		clocks = <&mclk>, <&mclk>;
+		clock-names = "wdogclk", "apb_pclk";
 	};
 
 	timer01: timer@1c110000 {
 		compatible = "arm,sp804", "arm,primecell";
 		reg = <0x1c110000 0x1000>;
 		interrupts = <0 2 4>;
+		clocks = <&sysctl 0>, <&sysctl 1>, <&mclk>;
+		clock-names = "timclken1", "timclken2", "apb_pclk";
 	};
 
 	timer23: timer@1c120000 {
 		compatible = "arm,sp804", "arm,primecell";
 		reg = <0x1c120000 0x1000>;
 		interrupts = <0 3 4>;
+		clocks = <&sysctl 2>, <&sysctl 3>, <&mclk>;
+		clock-names = "timclken1", "timclken2", "apb_pclk";
 	};
 
 	rtc@1c170000 {
 		compatible = "arm,pl031", "arm,primecell";
 		reg = <0x1c170000 0x1000>;
 		interrupts = <0 4 4>;
+		clocks = <&mclk>;
+		clock-names = "apb_pclk";
 	};
 
 	clcd@1c1f0000 {
 		compatible = "arm,pl111", "arm,primecell";
 		reg = <0x1c1f0000 0x1000>;
 		interrupts = <0 14 4>;
+		clocks = <&oscclk7>, <&mclk>;
+		clock-names = "clcdclk", "apb_pclk";
 	};
 
 	hdlcd@2b000000 {
 		compatible = "arm,hdlcd";
 		reg = <0x2b000000 0x1000>;
 		interrupts = <0 85 4>;
+		clocks = <&oscclk6>;
+		clock-names = "pxlclk";
 	};
 
 	memory-controller@2b0a0000 {
 		compatible = "arm,pl341", "arm,primecell";
 		reg = <0x2b0a0000 0x1000>;
+		clocks = <&mclk>;
+		clock-names = "apb_pclk";
 	};
 
 	gic: interrupt-controller@2c001000 {
@@ -160,6 +186,8 @@
 		interrupts = <0 92 4>,
 			     <0 88 4>,
 			     <0 89 4>;
+		clocks = <&mclk>;
+		clock-names = "apb_pclk";
 	};
 
 	memory-controller@7ffd0000 {
@@ -167,6 +195,8 @@
 		reg = <0x7ffd0000 0x1000>;
 		interrupts = <0 86 4>,
 			     <0 87 4>;
+		clocks = <&mclk>;
+		clock-names = "apb_pclk";
 	};
 
 	memory@80000000 {
@@ -186,6 +216,80 @@
 	pmu {
 		compatible = "arm,cortex-a7-pmu", "arm,cortex-a9-pmu";
 		interrupts = <0 68 4>;
+	};
+
+	clk32khz: clk32khz {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <32000>;
+		clock-output-names = "clk32khz";
+	};
+
+	clk1mhz: clk1mhz {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <1000000>;
+		clock-output-names = "clk1mhz";
+	};
+
+	clk24mhz: clk24mhz {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <24000000>;
+		clock-output-names = "clk24mhz";
+	};
+
+	mclk: mclk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <50000000>;
+		clock-output-names = "mclk";
+	};
+
+	mcc {
+		compatible = "arm,vexpress,config-bus";
+		arm,vexpress,config-bridge = <&sysreg>;
+
+		oscclk6: osc@6 {
+			compatible = "arm,vexpress-osc";
+			arm,vexpress-sysreg,func = <1 6>;
+			freq-range = <17000000 50000000>;
+			#clock-cells = <0>;
+			clock-output-names = "oscclk0";
+		};
+
+		oscclk7: osc@7 {
+			compatible = "arm,vexpress-osc";
+			arm,vexpress-sysreg,func = <1 7>;
+			freq-range = <23750000 165000000>;
+			#clock-cells = <0>;
+			clock-output-names = "oscclk1";
+		};
+
+		reset@0 {
+			compatible = "arm,vexpress-reset";
+			arm,vexpress-sysreg,func = <5 0>;
+		};
+
+		muxfpga@0 {
+			compatible = "arm,vexpress-muxfpga";
+			arm,vexpress-sysreg,func = <7 0>;
+		};
+
+		shutdown@0 {
+			compatible = "arm,vexpress-shutdown";
+			arm,vexpress-sysreg,func = <8 0>;
+		};
+
+		reboot@0 {
+			compatible = "arm,vexpress-reboot";
+			arm,vexpress-sysreg,func = <9 0>;
+		};
+
+		dvimode@0 {
+			compatible = "arm,vexpress-dvimode";
+			arm,vexpress-sysreg,func = <11 0>;
+		};
 	};
 
 	motherboard {
