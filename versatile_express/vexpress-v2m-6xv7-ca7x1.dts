@@ -58,6 +58,8 @@
 		reg-io-width = <4>;
 		smsc,irq-active-high;
 		smsc,irq-push-pull;
+		vdd33a-supply = <&v2m_fixed_3v3>;
+		vddvario-supply = <&v2m_fixed_3v3>;
 	};
 
 	usb@1b000000 {
@@ -216,6 +218,14 @@
 	pmu {
 		compatible = "arm,cortex-a7-pmu";
 		interrupts = <0 68 4>;
+	};
+
+	v2m_fixed_3v3: fixedregulator@0 {
+		compatible = "regulator-fixed";
+		regulator-name = "3V3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
 	};
 
 	clk32khz: clk32khz {
