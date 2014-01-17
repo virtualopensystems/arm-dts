@@ -147,6 +147,12 @@
 				clock-names = "timclken1", "timclken2", "apb_pclk";
 			};
 
+			virtio_block@130000 {
+				compatible = "virtio,mmio";
+				reg = <0x130000 0x200>;
+				interrupts = <42>;
+			};
+
 			rtc@170000 {
 				compatible = "arm,pl031", "arm,primecell";
 				reg = <0x170000 0x1000>;
